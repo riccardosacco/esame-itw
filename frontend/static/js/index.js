@@ -1,3 +1,25 @@
+import Home from "./views/Home.js";
+import Register from "./views/Register.js";
+import Login from "./views/Login.js";
+import Documents from "./views/Documents.js";
+import Document from "./views/Document.js";
+
+const pathToRegex = (path) =>
+  new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
+
+const getParams = (match) => {
+  const values = match.result.slice(1);
+  const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(
+    (result) => result[1]
+  );
+
+  return Object.fromEntries(
+    keys.map((key, i) => {
+      return [key, values[i]];
+    })
+  );
+};
+
 const navigateTo = (url) => {
   history.pushState(null, null, url);
   router();
@@ -5,30 +27,45 @@ const navigateTo = (url) => {
 
 const router = async () => {
   const routes = [
-    { path: "/", view: () => console.log("viewing dashboard") },
-    { path: "/documents", view: () => console.log("viewing documents") },
-    { path: "/document", view: () => console.log("viewing document") },
+    { path: "/", view: Home },
+    { path: "/login", view: Login },
+    { path: "/register", view: Register },
+    { path: "/documents", view: Documents },
+    { path: "/documents/:id", view: Document },
   ];
 
   const potentialMatches = routes.map((route) => {
     return {
       route,
-      isMatch: location.pathname === route.path,
+      result: location.pathname.match(pathToRegex(route.path)),
     };
   });
 
-  let match = potentialMatches.find((potentialMatch) => potentialMatch.isMatch);
+  let match = potentialMatches.find(
+    (potentialMatch) => potentialMatch.result !== null
+  );
 
   if (!match) {
     match = {
       route: routes[0],
-      isMatch: true,
+      result: [location.pathname],
     };
   }
 
-  console.log(match.route.view());
+  const view = new match.route.view(getParams(match));
+
+  document.querySelector("#app").innerHTML = await view.getHtml();
 };
 
+window.addEventListener("popstate", router);
+
 document.addEventListener("DOMContentLoaded", () => {
+  document.body.addEventListener("click", (e) => {
+    if (e.target.matches("[data-link]")) {
+      e.preventDefault();
+      navigateTo(e.target.href);
+    }
+  });
+
   router();
 });
