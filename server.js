@@ -1,15 +1,41 @@
 const express = require("express");
 const path = require("path");
 
+// Inizializzo express
 const app = express();
+const PORT = process.env.PORT || 3500;
 
+// Importo le routes
+const documents = require("./routes/documents");
+const folders = require("./routes/folders");
+const users = require("./routes/users");
+
+// Definisco le routes dell'api
+app.use("/api/documents", documents);
+app.use("/api/folders", folders);
+app.use("/api/users", users);
+
+// Default route api
+app.get("/api/*", (req, res) => {
+  res.status(404).send({ error: "API route not found" });
+});
+
+// Cartella assets statici
 app.use(
   "/static",
   express.static(path.resolve(__dirname, "frontend", "static"))
 );
 
+app.use("/uploads", express.static(path.resolve(__dirname, "uploads")));
+
+// Default route frontend
 app.get("/*", (req, res) => {
   res.sendFile(path.resolve("frontend", "index.html"));
 });
 
-app.listen(process.env.PORT || 3500, () => console.log("Server running..."));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Evita che node si chiuda su un errore
+process.on("uncaughtException", (err) => {
+  console.log("Caught exception: ", err);
+});
