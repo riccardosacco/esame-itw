@@ -4,16 +4,19 @@ const path = require("path");
 // Inizializzo express
 const app = express();
 const PORT = process.env.PORT || 3500;
+app.use(express.json());
 
 // Importo le routes
 const documents = require("./routes/documents");
 const folders = require("./routes/folders");
 const users = require("./routes/users");
+const auth = require("./routes/auth");
 
 // Definisco le routes dell'api
 app.use("/api/documents", documents);
 app.use("/api/folders", folders);
 app.use("/api/users", users);
+app.use("/api/auth", auth);
 
 // Default route api
 app.get("/api/*", (req, res) => {

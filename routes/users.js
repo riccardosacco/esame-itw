@@ -1,16 +1,12 @@
 var express = require("express");
 var router = express.Router();
 
-const db = require("../config/db");
+const query = require("../config/db");
 
-router.get("/", (req, res) => {
-  db.query("SELECT * FROM users", (err, results) => {
-    if (err) {
-      return res.status(500).send({ error: "Error while fetching users" });
-    }
+router.get("/", async (req, res) => {
+  const users = await query("SELECT * FROM users");
 
-    return res.send(results);
-  });
+  return res.send(users);
 });
 
 module.exports = router;

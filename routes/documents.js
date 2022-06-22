@@ -1,16 +1,29 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-const db = require("../config/db");
+const query = require("../config/db");
+const auth = require("../middleware/auth");
 
-router.get("/", (req, res) => {
-  db.query("SELECT * FROM documents", (err, results) => {
-    if (err) {
-      return res.status(500).send({ error: "Error while fetching documents" });
-    }
+router.get("/", auth, async (req, res) => {
+  const documents = await query(
+    "SELECT * FROM documents WHERE owner = ?",
+    req.user.id
+  );
 
-    return res.send(results);
-  });
+  return res.send(documents);
+});
+
+router.get("/:id", auth, async (req, res) => {
+  const [document] = await query(
+    "SELECT * FROM documents WHERE id = ? AND owner = ?",
+    [req.params.id, req.user.id]
+  );
+
+  if (!document) {
+    return res.status(404).send({ error: "Folder not found" });
+  }
+
+  return res.send(document);
 });
 
 module.exports = router;

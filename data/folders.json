@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1",
+    "owner": "1",
+    "parent": null,
+    "name": "Cartella 1",
+    "created": "2022-05-22 01:19:55"
+  },
+  {
+    "id": "2",
+    "owner": "1",
+    "parent": null,
+    "name": "Cartella 2",
+    "created": "2022-05-22 01:42:37"
+  },
+  {
+    "id": "3",
+    "owner": "1",
+    "parent": "1",
+    "name": "Cartella 11",
+    "created": "2022-05-22 21:16:07"
+  },
+  {
+    "id": "4",
+    "owner": "1",
+    "parent": "1",
+    "name": "Cartella 12",
+    "created": "2022-05-22 21:16:07"
+  },
+  {
+    "id": "5",
+    "owner": "1",
+    "parent": null,
+    "name": "Cartella 3",
+    "created": "2022-06-22 16:16:18"
+  },
+  {
+    "id": "6",
+    "owner": "1",
+    "parent": "1",
+    "name": "Cartella 13",
+    "created": "2022-06-22 16:16:49"
+  },
+  {
+    "id": "7",
+    "owner": "1",
+    "parent": "2",
+    "name": "Cartella 21",
+    "created": "2022-06-22 16:16:49"
+  },
+  {
+    "id": "8",
+    "owner": "1",
+    "parent": "5",
+    "name": "Cartella 31",
+    "created": "2022-06-22 16:16:59"
+  }
+]
