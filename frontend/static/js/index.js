@@ -1,8 +1,9 @@
 import Home from "./views/Home.js";
 import Register from "./views/Register.js";
 import Login from "./views/Login.js";
-import Documents from "./views/Documents.js";
 import Document from "./views/Document.js";
+import Folder from "./views/Folder.js";
+import "./plugins/axios.js";
 
 const pathToRegex = (path) =>
   new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -30,7 +31,7 @@ const router = async () => {
     { path: "/", view: Home },
     { path: "/login", view: Login },
     { path: "/register", view: Register },
-    { path: "/documents", view: Documents },
+    { path: "/folders/:id", view: Folder },
     { path: "/documents/:id", view: Document },
   ];
 

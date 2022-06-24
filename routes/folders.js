@@ -44,4 +44,28 @@ router.get("/:id", auth, async (req, res) => {
   return res.send({ ...folder, documents });
 });
 
+router.put("/:id", auth, async (req, res) => {
+  await query("UPDATE folders SET ? WHERE id = ? AND owner = ?", [
+    { ...req.body },
+    req.params.id,
+    req.user.id,
+  ]);
+
+  const [folder] = await query(
+    "SELECT * FROM folders WHERE id = ? AND owner = ?",
+    [req.params.id, req.user.id]
+  );
+
+  return res.send(folder);
+});
+
+router.delete("/:id", auth, async (req, res) => {
+  await query("DELETE FROM folders WHERE id = ? AND owner = ?", [
+    req.params.id,
+    req.user.id,
+  ]);
+
+  return res.send({});
+});
+
 module.exports = router;

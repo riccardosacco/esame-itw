@@ -8,13 +8,16 @@ export default class extends AbstractView {
 
   async getHtml() {
     return `
-    <h3>Register</h3>
-    <form action="#">
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Password" />
-      <input type="password" placeholder="Repeat password" />
-      <button type="submit">Register</button>
-    </form>
+    <div class="page">
+      <h3 class="title">Register</h3>
+      <form class="register-form" action="#">
+        <input class="form-input" type="email" placeholder="Email" />
+        <input class="form-input" type="password" placeholder="Password" />
+        <input class="form-input" type="password" placeholder="Repeat password" />
+        <button class="form-button" type="submit">Register</button>
+      </form>
+    </div>
+    
     `;
   }
 }

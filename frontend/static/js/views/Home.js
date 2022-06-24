@@ -7,30 +7,30 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    const folders = await this.getFolders();
+
     return `
-    <h3>Home page</h3>
-    <ul>
-      <li>
-        Cartella 1
-        <ul>
-          <li>Cartella 11</li>
-          <li>Cartella 12</li>
-          <li>Cartella 13</li>
-        </ul>
-      </li>
-      <li>
-        Cartella 2
-        <ul>
-          <li>Cartella 21</li>
-        </ul>
-      </li>
-      <li>
-        Cartella 3
-        <ul>
-          <li>Cartella 31</li>
-        </ul>
-      </li>
-    </ul>
+    <div class="page">
+      <h3 class="title">Home page</h3>
+      <div class="folders">
+        ${folders
+          .map((folder) => {
+            return `
+            <div class="folder" data-id="${folder.id}">
+              <span class="folder-name">${folder.name}</span>
+              <div class="subfolders">
+                ${folder.subfolders
+                  .map((subfolder) => {
+                    return `<a href="/folders/${subfolder.id}" class="subfolder" data-id="${subfolder.id}" data-link>${subfolder.name}</a>`;
+                  })
+                  .join("")}
+              </div>
+            </div>
+            `;
+          })
+          .join("")}
+      </div>
+    </div>
     `;
   }
 }

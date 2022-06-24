@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const reload = require("reload");
 
 // Inizializzo express
 const app = express();
@@ -42,3 +43,5 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 process.on("uncaughtException", (err) => {
   console.log("Caught exception: ", err);
 });
+
+reload(app);
